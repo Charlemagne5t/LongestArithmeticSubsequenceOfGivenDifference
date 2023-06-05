@@ -1,24 +1,19 @@
 package org.example;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Solution {
     public int longestSubsequence(int[] arr, int difference) {
         int n = arr.length;
-        int[] dp = new int[n];
-        Arrays.fill(dp, 1);
+        Map<Integer, Integer> dp = new HashMap<>();
         int globalMax = 1;
-        for (int i = 1; i < n; i++) {
-            int localMax = 1;
-            for (int j = 0; j < i; j++) {
-                if(arr[i] - arr[j] == difference){
-                    localMax = Math.max(localMax, dp[j] + 1);
-                }
-            }
-            dp[i] = localMax;
+
+        for (int i = 0; i < n; i++) {
+            int localMax = dp.getOrDefault(arr[i] - difference, 0) + 1;
+            dp.put(arr[i], localMax);
             globalMax = Math.max(globalMax, localMax);
         }
-
         return globalMax;
     }
 }
